@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Blackjack {
   class Deck {
     public Deck(int decks = 1) {
-      deck = new Card[decks * PACKSIZE];
+      deck = new(decks * PACKSIZE);
 
       int fillIndex = 0;
       var loopSuit = Enum.GetValues(typeof(Suit)).Cast<Suit>();
@@ -22,13 +22,13 @@ namespace Blackjack {
         }
     }
 
-    private static readonly Random rng = new Random();
+    static readonly Random rng = new();
     const int PACKSIZE = 52;
-    readonly Card[] deck;
+    readonly List<Card> deck;
     int index = 0;
 
     public Card Draw() {
-      if (index > deck.Length - 1) {
+      if (index > deck.Count - 1) {
         return null;
       }
       var card = deck[index];
@@ -39,7 +39,7 @@ namespace Blackjack {
     //Basic Fisher-Yates shuffle
     public void Shuffle() {
       index = 0;
-      int count = deck.Length;
+      int count = deck.Count;
       while (count > 1) {
         count--;
         int next = rng.Next(count + 1);
